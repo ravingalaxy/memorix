@@ -40,21 +40,21 @@ Memorix is a **production-grade Multi-Agent Memory Coordination Platform** that 
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                      FRONTEND (Memorix Dashboard)           │
-│  • Interactive graph visualization (Episodic Memory)         │
+│  • Interactive graph visualization (Episodic Memory)        │
 │  • Entity/Skill repository views                            │
-│  • Real-time session timeline                                     │
-│  • Agent handoff dialogs                                      │
+│  • Real-time session timeline                               │
+│  • Agent handoff dialogs                                    │
 └─────────────┬───────────────────────────────────────────────┘
               │
               │ API Endpoints
               ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                FASTAPI BACKEND (Python 3.12+)                │
-│  ├─ MemoryOrchestrator (Controller)                          │
+│                FASTAPI BACKEND (Python 3.12+)               │
+│  ├─ MemoryOrchestrator (Controller)                         │
 │  ├─ EpisodicMemoryAgent (Conversation turns)                │
-│  ├─ SemanticMemoryAgent (Facts/Entities)                     │
+│  ├─ SemanticMemoryAgent (Facts/Entities)                    │
 │  ├─ ProceduralMemoryAgent (Skills/Workflows)                │
-│  └─ FalkorDB Driver (Multi-graph isolation)                │
+│  └─ FalkorDB Driver (Multi-graph isolation)                 │
 └─────────────────────────────────────────────────────────────┘
                      │                │
                      │ Multi-graph     │ Memory Isolation
@@ -65,7 +65,7 @@ Memorix is a **production-grade Multi-Agent Memory Coordination Platform** that 
 │ graphguard*          │   │ └ memorix_tenant_X_memory   │
 │                      │   │    ├ memorix_X_episodic     │
 │                      │   │    ├ memorix_X_semantic     │
-│                      │   │    └ memorix_X_procedural  │
+│                      │   │    └ memorix_X_procedural   │
 └──────────────────────┘   └─────────────────────────────┘
       FalkorDB               FalkorDB (Multi-graph)
 ```
