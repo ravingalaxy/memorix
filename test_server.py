@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """Comprehensive test script for Memorix application."""
 
 import subprocess
@@ -33,7 +33,7 @@ def test_endpoints():
     import requests
     base = 'http://localhost:8000/api'
     
-    print("\n=== MEMORIX FIRST PRIZE VERIFICATION ===\n")
+    print("\n=== MEMORIX SYSTEM VERIFICATION ===\n")
     
     results = []
     

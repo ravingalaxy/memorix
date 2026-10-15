@@ -1,4 +1,4 @@
-# Memorix Demo Script - First Prize Winning Presentation
+# Memorix Demo Script - Technical & Executive Walkthrough
 
 ## Total Demo Time: ~4 minutes
 
@@ -6,7 +6,7 @@
 
 ## Opening (30 seconds)
 
-**"Good morning judges. Today I'm presenting Memorix - the world's first Multi-Agent Memory Coordination Platform that demonstrates complete Episodic, Semantic, and Procedural memory working together in real-time."**
+**"Good morning. Today I'm presenting Memorix - a Multi-Agent Memory Coordination Platform that demonstrates complete Episodic, Semantic, and Procedural memory working together in real-time."**
 
 Open `http://localhost:8000`
 
@@ -25,7 +25,7 @@ Show the dashboard with dark cyberpunk theme, three-column layout.
    - Graph showing 3 sessions, 7 agents connected
    - Timeline shows: Alice Robertson → Bob Johnson → Carol White
 
-**"This scenario demonstrates how agents remember customers across sessions - something no other hackathon entry can do."**
+**"This scenario demonstrates how agents remember customers across sessions with seamless cross-session context continuity."**
 
 ---
 
@@ -196,4 +196,4 @@ A: Only entry with all three memory types + real-time coordination + interactive
 
 ## Closing Line
 
-**"Memorix doesn't just demonstrate memory - it coordinates intelligent agents through persistent, multi-type memory graphs. That's why it's winning Track 02."**
+**"Memorix doesn't just demonstrate memory - it coordinates intelligent agents through persistent, multi-type memory graphs on FalkorDB."**
