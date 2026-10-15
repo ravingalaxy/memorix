@@ -425,4 +425,4 @@ Memorix comprehensively satisfies **all Track 02 requirements**:
 ---
 
 ## 👥 Authors
-Built with ❤️ for **Graph Hacks: Context for AI Agents** by the Memorix Team.
+Built with ❤️ for **Graph Hacks: Context for AI Agents** by the Memorix Team(Ravindra).
