@@ -2,10 +2,12 @@
 
 [![Hackathon](https://img.shields.io/badge/WeMakeDevs-Graph%20Hacks%202026-6366f1.svg)](https://www.wemakedevs.org/hackathons/falkordb)
 [![Track](https://img.shields.io/badge/Track%2002-Agent%20Memory%20and%20Coordination-ec4899.svg)](https://www.wemakedevs.org/hackathons/falkordb#tracks)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-memorix--dcaq.onrender.com-success.svg?logo=render)](https://memorix-dcaq.onrender.com/)
 [![Database](https://img.shields.io/badge/Powered%20by-FalkorDB%20Graph%20Database-f59e0b.svg)](https://falkordb.com)
 [![Architecture](https://img.shields.io/badge/Memory-Episodic%20%2B%20Semantic%20%2B%20Procedural-10b981.svg)](#)
 [![Docker](https://img.shields.io/badge/Docker-Optional%20(Auto--Fallback)-blue.svg)](#)
 
+> 🌐 **Live Web Application:** [https://memorix-dcaq.onrender.com/](https://memorix-dcaq.onrender.com/)  
 > **Submission for Graph Hacks: Context for AI Agents (Track 02: Agent Memory and Coordination)**  
 > **Core Innovation:** First multi-agent platform combining the complete Trinity of Memory (Episodic, Semantic, Procedural) with cross-session recall and agent handoffs on FalkorDB's isolated multigraph engine.
 
