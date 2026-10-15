@@ -1,5 +1,14 @@
-# Memorix - Multi-Agent Memory & Coordination Platform
-## Track 02: Agent Memory and Coordination | FalkorDB Graph Hacks 2026
+# Memorix 🧠 — Multi-Agent Memory & Coordination Platform
+
+[![Hackathon](https://img.shields.io/badge/WeMakeDevs-Graph%20Hacks%202026-6366f1.svg)](https://www.wemakedevs.org/hackathons/falkordb)
+[![Track](https://img.shields.io/badge/Track%2002-Agent%20Memory%20and%20Coordination-ec4899.svg)](https://www.wemakedevs.org/hackathons/falkordb#tracks)
+[![Database](https://img.shields.io/badge/Powered%20by-FalkorDB%20Graph%20Database-f59e0b.svg)](https://falkordb.com)
+[![Architecture](https://img.shields.io/badge/Memory-Episodic%20%2B%20Semantic%20%2B%20Procedural-10b981.svg)](#)
+[![Docker](https://img.shields.io/badge/Docker-Optional%20(Auto--Fallback)-blue.svg)](#)
+
+> **Submission for Graph Hacks: Context for AI Agents (Track 02)**  
+> **Prize Target:** PlayStation 5 with GTA VI  
+> **Core Innovation:** First multi-agent platform combining the complete Trinity of Memory (Episodic, Semantic, Procedural) with cross-session recall and agent handoffs on FalkorDB's isolated multigraph engine.
 
 ---
 
@@ -62,7 +71,7 @@ Memorix is a **production-grade Multi-Agent Memory Coordination Platform** that 
 ┌──────────────────────┐   ┌─────────────────────────────┐
 │ Memorix Main Graph   │   │ Memorix Memory Graph        │
 │ (Coordination)       │   │ per-tenant isolation        │
-│ graphguard*          │   │ └ memorix_tenant_X_memory   │
+│ memorix*             │   │ └ memorix_tenant_X_memory   │
 │                      │   │    ├ memorix_X_episodic     │
 │                      │   │    ├ memorix_X_semantic     │
 │                      │   │    └ memorix_X_procedural   │
@@ -82,15 +91,21 @@ Memorix is a **production-grade Multi-Agent Memory Coordination Platform** that 
 
 ### 🛠️ Installation & Setup
 
+#### Option A: Local Python Run (Zero Docker Needed)
 ```bash
-cd F:\hackathon\Track 2
-
-# Install dependencies
+cd "Track 2  Memorix"
 pip install -r requirements.txt
-
-# Start the server (port 8000)
 python main.py
 ```
+*Open [http://localhost:8000](http://localhost:8000) in your web browser.*
+
+#### Option B: Full Docker Compose (App + FalkorDB Container)
+```bash
+docker-compose up --build
+```
+
+#### Option C: 1-Click Cloud Deployment
+Deploy free to Render or Hugging Face Spaces in under 2 minutes. See [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md).
 
 ---
 
