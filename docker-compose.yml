@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  # Official FalkorDB Graph Database Service
+  falkordb:
+    image: falkordb/falkordb:latest
+    container_name: memorix-falkordb
+    ports:
+      - "6379:6379"
+    volumes:
+      - memorix_falkor_data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  # Memorix Multi-Agent Memory & Coordination Platform
+  memorix:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: memorix-app
+    ports:
+      - "8000:8000"
+    environment:
+      - FALKOR_HOST=falkordb
+      - FALKOR_PORT=6379
+      - PORT=8000
+      - HOST=0.0.0.0
+    depends_on:
+      falkordb:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  memorix_falkor_data:
+    driver: local

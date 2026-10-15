@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memorix — Multi-Agent Memory Coordination</title>
+    <meta name="description" content="Episodic, Semantic, and Procedural memory working together in real-time. Powered by FalkorDB.">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%230a0e1a'/%3E%3Ccircle cx='16' cy='16' r='5' fill='%236e8bff'/%3E%3Ccircle cx='16' cy='6' r='2' fill='%2322d3ee'/%3E%3Ccircle cx='25' cy='16' r='2' fill='%23a78bfa'/%3E%3Ccircle cx='16' cy='26' r='2' fill='%2334d399'/%3E%3Ccircle cx='7' cy='16' r='2' fill='%23fbbf24'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Living background -->
+    <div class="bg-canvas" aria-hidden="true"></div>
+    <div class="bg-aurora" aria-hidden="true"></div>
+    <div class="bg-grid" aria-hidden="true"></div>
+
+    <header>
+        <div class="header-left">
+            <a class="logo" href="/" aria-label="Memorix home">
+                <svg class="logo-mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+                    <circle cx="20" cy="20" r="18" stroke="url(#lg1)" stroke-width="1.5" opacity="0.6"/>
+                    <circle cx="20" cy="20" r="12.5" stroke="url(#lg1)" stroke-width="1" opacity="0.35"/>
+                    <g class="lm-orbit">
+                        <circle cx="20" cy="6" r="2.5" fill="#22d3ee"/>
+                        <circle cx="34" cy="20" r="2.5" fill="#a78bfa"/>
+                        <circle cx="20" cy="34" r="2.5" fill="#34d399"/>
+                        <circle cx="6" cy="20" r="2.5" fill="#fbbf24"/>
+                    </g>
+                    <circle cx="20" cy="20" r="5.5" fill="#6e8bff"/>
+                    <circle cx="20" cy="20" r="8" fill="#6e8bff" opacity="0.2"/>
+                    <defs>
+                        <linearGradient id="lg1" x1="0" y1="0" x2="40" y2="40">
+                            <stop stop-color="#6e8bff"/><stop offset="1" stop-color="#22d3ee"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <span>
+                    <span class="logo-name">Memorix</span>
+                    <span class="logo-sub" style="display:block">Memory Graph Platform</span>
+                </span>
+            </a>
+            <span class="logo-badge">Track 02 · Agent Memory & Coordination</span>
+        </div>
+        <div class="header-right">
+            <div class="tenant-selector">
+                <label for="tenant-select">Tenant</label>
+                <select id="tenant-select" aria-label="Select tenant">
+                    <option value="tenant_corp">tenant_corp</option>
+                    <option value="tenant_demo">tenant_demo</option>
+                </select>
+            </div>
+            <div class="server-status" role="status" aria-live="polite">
+                <span class="status-indicator" id="status-indicator"></span>
+                <span id="server-status">Connecting…</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="dashboard-container">
+        <div class="dashboard-layout">
+            <!-- LEFT COLUMN — memory authoring -->
+            <div class="left-column">
+                <section class="card scenarios-card" aria-label="Pre-loaded scenarios">
+                    <h2>Pre-loaded Scenarios</h2>
+                    <div class="scenario-buttons">
+                        <button type="button" class="btn-secondary scenario-btn" data-scenario="MULTI-SESSION-01">
+                            Multi-Session Support — 3 sessions, 9 turns
+                        </button>
+                        <button type="button" class="btn-secondary scenario-btn" data-scenario="PROCEDURAL-01">
+                            Procedural Learning — skills & workflows
+                        </button>
+                    </div>
+                </section>
+
+                <section class="card" aria-label="Start memory session">
+                    <h2>Start Memory Session</h2>
+                    <form id="session-form">
+                        <div class="form-group">
+                            <label for="session-id">Session ID</label>
+                            <input type="text" id="session-id" required placeholder="SES-XXX-XXX" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label for="user-id">User ID</label>
+                            <input type="text" id="user-id" required placeholder="user_alex" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label for="agents">Participating Agents</label>
+                            <select id="agents" multiple required aria-describedby="agents-help">
+                                <option value="CustomerBot">CustomerBot</option>
+                                <option value="KnowledgeBase">KnowledgeBase</option>
+                                <option value="MemoryAgent">MemoryAgent</option>
+                                <option value="SupportAnalytics">SupportAnalytics</option>
+                                <option value="BudgetChecker">BudgetChecker</option>
+                                <option value="Enforcer">Enforcer</option>
+                                <option value="TicketProxy">TicketProxy</option>
+                            </select>
+                            <small class="help-text" id="agents-help">Hold Ctrl / Cmd to select multiple agents</small>
+                        </div>
+                        <button type="submit" class="btn-primary">Start Session</button>
+                    </form>
+                </section>
+
+                <section class="card" aria-label="Record conversation turn">
+                    <h2>Record Conversation Turn</h2>
+                    <form id="turn-form">
+                        <div class="form-group">
+                            <label for="turn-id">Turn ID</label>
+                            <input type="text" id="turn-id" required placeholder="T-XXX-XXX" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label for="turn-session-id">Session ID</label>
+                            <input type="text" id="turn-session-id" required placeholder="SES-XXX-XXX" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label for="speaker">Speaker</label>
+                            <input type="text" id="speaker" required placeholder="CustomerBot" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label for="content">Content</label>
+                            <textarea id="content" required rows="3" placeholder="Hello, I need help with order #ORD-78901"></textarea>
+                        </div>
+                        <div class="form-row cols-2">
+                            <div class="form-group">
+                                <label for="intent">Intent</label>
+                                <input type="text" id="intent" placeholder="inquiry">
+                            </div>
+                            <div class="form-group">
+                                <label for="entities">Entities</label>
+                                <input type="text" id="entities" placeholder="ORD-78901">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-primary">Record Turn</button>
+                    </form>
+                </section>
+
+                <section class="card" aria-label="End session">
+                    <h2>End Session</h2>
+                    <form id="end-session-form">
+                        <div class="form-group">
+                            <label for="end-session-id">Session ID</label>
+                            <input type="text" id="end-session-id" required placeholder="SES-XXX-XXX" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label for="session-status">Status</label>
+                            <select id="session-status">
+                                <option value="closed">closed</option>
+                                <option value="archived">archived</option>
+                                <option value="completed">completed</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-primary">End Session</button>
+                    </form>
+                </section>
+
+                <section class="card" aria-label="Add entity">
+                    <h2>Add Entity</h2>
+                    <form id="entity-form">
+                        <div class="form-group">
+                            <label for="entity-name">Entity Name</label>
+                            <input type="text" id="entity-name" required placeholder="Alice Robertson" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label for="entity-type">Type</label>
+                            <input type="text" id="entity-type" placeholder="customer">
+                        </div>
+                        <div class="form-group">
+                            <label for="entity-description">Description</label>
+                            <textarea id="entity-description" rows="2" placeholder="Gold Tier customer, prefers email"></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary">Add Entity</button>
+                    </form>
+                </section>
+
+                <section class="card" aria-label="Add fact">
+                    <h2>Add Fact</h2>
+                    <form id="fact-form">
+                        <div class="form-group">
+                            <label for="fact-statement">Statement</label>
+                            <input type="text" id="fact-statement" required placeholder="Alice Robertson is a Gold Tier customer" autocomplete="off">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="fact-subject">Subject</label>
+                                <input type="text" id="fact-subject" placeholder="Alice Robertson">
+                            </div>
+                            <div class="form-group">
+                                <label for="fact-predicate">Predicate</label>
+                                <input type="text" id="fact-predicate" placeholder="is">
+                            </div>
+                            <div class="form-group">
+                                <label for="fact-object">Object</label>
+                                <input type="text" id="fact-object" placeholder="Gold Tier">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-primary">Add Fact</button>
+                    </form>
+                </section>
+            </div>
+
+            <!-- MIDDLE COLUMN — the hero graph -->
+            <div class="middle-column">
+                <section class="card memory-visualization" aria-label="Episodic memory graph">
+                    <div class="card-header">
+                        <h2>Episodic Memory Graph</h2>
+                        <div class="graph-controls">
+                            <button type="button" id="play-demo" class="btn-small">▶ Play Demo</button>
+                            <button type="button" id="reset-graph" class="btn-small">Reset</button>
+                        </div>
+                    </div>
+                    <div id="graph-container">
+                        <svg width="100%" height="520" id="episodic-graph" role="img" aria-label="Interactive memory graph. Click agent nodes to coordinate handoffs."></svg>
+                        <div class="graph-empty" id="graph-empty">
+                            <svg width="46" height="46" viewBox="0 0 46 46" fill="none" aria-hidden="true">
+                                <circle cx="23" cy="23" r="20" stroke="#3d4b63" stroke-width="1" stroke-dasharray="4 4"/>
+                                <circle cx="23" cy="23" r="4" fill="#3d4b63"/>
+                                <circle cx="23" cy="10" r="2" fill="#3d4b63"/>
+                                <circle cx="36" cy="23" r="2" fill="#3d4b63"/>
+                                <circle cx="23" cy="36" r="2" fill="#3d4b63"/>
+                                <circle cx="10" cy="23" r="2" fill="#3d4b63"/>
+                            </svg>
+                            <p>Load a scenario or start a session to visualize memory</p>
+                        </div>
+                    </div>
+                    <div class="graph-legend">
+                        <span class="legend-item"><span class="dot session"></span>Session</span>
+                        <span class="legend-item"><span class="dot agent"></span>Agent</span>
+                        <span class="legend-item"><span class="dot turn"></span>Turn</span>
+                        <span class="legend-item"><span class="dot entity"></span>Entity</span>
+                        <span class="legend-item"><span class="dot skill"></span>Skill</span>
+                        <span class="legend-item"><span class="legend-line handoff"></span> Handoff</span>
+                    </div>
+                </section>
+
+                <section class="card semantic-memory" aria-label="Semantic memory repository">
+                    <div class="card-header">
+                        <h2>Semantic Memory Repository</h2>
+                        <button type="button" id="refresh-entities" class="btn-small">Refresh</button>
+                    </div>
+                    <div class="entity-search">
+                        <input type="text" id="entity-search" placeholder="Search entities…" aria-label="Search entities">
+                        <button type="button" id="search-entity" class="btn-small" aria-label="Search">Search</button>
+                    </div>
+                    <div id="entity-list" class="scrollable-content"></div>
+                    <div id="entity-detail" class="entity-detail" hidden></div>
+                </section>
+            </div>
+
+            <!-- RIGHT COLUMN — memory intelligence -->
+            <div class="right-column">
+                <section class="card session-history" aria-label="Session timeline">
+                    <div class="card-header">
+                        <h2>Session Timeline</h2>
+                        <span id="timeline-count" class="badge">0 events</span>
+                    </div>
+                    <div id="session-time" class="timeline-scrollable"></div>
+                </section>
+
+                <section class="card procedural-memory" aria-label="Procedural memory database">
+                    <h2>Procedural Memory</h2>
+                    <div class="skill-search">
+                        <input type="text" id="skill-search" placeholder="Search skills…" aria-label="Search skills">
+                    </div>
+                    <select id="skills-list" class="card-select" aria-label="Select skill">
+                        <option value="">Load Skills from Memory…</option>
+                    </select>
+                    <div id="skill-detail" class="card-content"></div>
+                </section>
+
+                <section class="card" aria-label="Memory query">
+                    <h2>Memory Query</h2>
+                    <div class="query-tabs" role="tablist">
+                        <button type="button" class="query-tab active" data-query="session" role="tab">Session</button>
+                        <button type="button" class="query-tab" data-query="entity" role="tab">Entity</button>
+                        <button type="button" class="query-tab" data-query="skill" role="tab">Skill</button>
+                    </div>
+                    <div id="query-panel">
+                        <div class="query-content active" data-query="session">
+                            <input type="text" id="query-session-id" placeholder="SES-001" aria-label="Session ID">
+                            <button type="button" id="query-session-btn" class="btn-small">Query</button>
+                        </div>
+                        <div class="query-content" data-query="entity">
+                            <input type="text" id="query-entity-name" placeholder="Alice Robertson" aria-label="Entity name">
+                            <button type="button" id="query-entity-btn" class="btn-small">Query</button>
+                        </div>
+                        <div class="query-content" data-query="skill">
+                            <input type="text" id="query-skill-name" placeholder="gold-tier-customization" aria-label="Skill name">
+                            <button type="button" id="query-skill-btn" class="btn-small">Query</button>
+                        </div>
+                    </div>
+                    <div id="query-results" class="query-results" hidden></div>
+                </section>
+
+                <section class="card" aria-label="System statistics">
+                    <h2>System Stats</h2>
+                    <div id="system-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Sessions</span>
+                            <span class="stat-value" id="stat-sessions">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Entities</span>
+                            <span class="stat-value" id="stat-entities">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Skills</span>
+                            <span class="stat-value" id="stat-skills">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Turns</span>
+                            <span class="stat-value" id="stat-turns">0</span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast notifications -->
+    <div id="toast-container" aria-live="polite" aria-atomic="false"></div>
+
+    <!-- Agent handoff modal -->
+    <div id="handoff-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="handoff-title">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="handoff-title">Agent Handoff</h3>
+                <button type="button" class="modal-close" aria-label="Close dialog">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="handoff-from">From Agent</label>
+                    <input type="text" id="handoff-from" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="handoff-to">To Agent</label>
+                    <input type="text" id="handoff-to" placeholder="KnowledgeBase">
+                </div>
+                <div class="form-group">
+                    <label for="handoff-context">Context Summary</label>
+                    <textarea id="handoff-context" rows="3" placeholder="Customer needs order status for ORD-78901, Gold Tier priority"></textarea>
+                </div>
+                <button type="button" id="confirm-handoff" class="btn-primary">Coordinate Handoff</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading overlay -->
+    <div id="coordinating-overlay" class="coordinating-overlay" aria-live="polite">
+        <div class="coordinating-overlay-content">
+            <div class="spinner" aria-hidden="true"></div>
+            <p class="coordinating-message" id="coordinating-message">Coordinating…</p>
+        </div>
+    </div>
+
+    <script src="js/memorix.js"></script>
+</body>
+</html>
