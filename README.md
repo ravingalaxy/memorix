@@ -67,7 +67,7 @@ Memorix is a **production-grade Multi-Agent Memory Coordination Platform** that 
 │  └─ FalkorDB Driver (Multi-graph isolation)                 │
 └─────────────────────────────────────────────────────────────┘
                      │                │
-                     │ Multi-graph     │ Memory Isolation
+                     │ Multi-graph    │ Memory Isolation
                      ▼                ▼
 ┌──────────────────────┐   ┌─────────────────────────────┐
 │ Memorix Main Graph   │   │ Memorix Memory Graph        │
