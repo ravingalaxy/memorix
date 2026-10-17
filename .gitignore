@@ -31,3 +31,7 @@ logs/
 # Test artifacts
 .pytest_cache/
 .coverage
+
+*.mp4
+*.wav
+
