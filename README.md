@@ -80,6 +80,46 @@ Memorix is a **production-grade Multi-Agent Memory Coordination Platform** that 
       FalkorDB               FalkorDB (Multi-graph)
 ```
 
+### 📊 Memory Graph Data Model & Schema
+
+Memorix models multi-agent state across three unified memory partitions inside FalkorDB:
+
+```mermaid
+graph TD
+    subgraph Episodic["1. Episodic Memory Partition"]
+        SES["Session<br/>(id, started_at, status)"]
+        TURN["ConversationTurn<br/>(id, speaker, intent, content)"]
+        AGENT["Agent<br/>(name, role)"]
+        HANDOFF["AgentHandoff<br/>(from, to, context, timestamp)"]
+        SES -->|CONTAINS_TURN| TURN
+        SES -->|PARTICIPANT| AGENT
+        AGENT -->|COORDINATED_HANDOFF| HANDOFF
+    end
+
+    subgraph Semantic["2. Semantic Memory Partition"]
+        ENT["Entity<br/>(name, type, tenant)"]
+        FACT["Fact<br/>(statement, confidence, source)"]
+        ENT -->|KNOWS_FACT| FACT
+        TURN -.->|EXTRACTED_FROM| ENT
+    end
+
+    subgraph Procedural["3. Procedural Memory Partition"]
+        SKILL["Skill<br/>(name, success_rate, executions)"]
+        STEP["ProcedureStep<br/>(order, action, tool)"]
+        SKILL -->|HAS_STEP| STEP
+        AGENT -.->|UTILIZES| SKILL
+    end
+```
+
+#### Node Labels & Core Properties:
+- **`Session`**: `session_id`, `started_at`, `status`, `tenant_id`, `user_id`
+- **`ConversationTurn`**: `turn_id`, `speaker`, `content`, `intent`, `timestamp`
+- **`Agent`**: `agent_name`, `role`, `status`
+- **`AgentHandoff`**: `from_agent`, `to_agent`, `context_summary`, `timestamp`
+- **`Entity`**: `name`, `entity_type`, `description`, `tenant_id`
+- **`Fact`**: `statement`, `confidence`, `subject`, `predicate`, `object`, `source`
+- **`Skill`**: `name`, `description`, `category`, `success_rate`, `execution_count`, `avg_duration_ms`
+
 ---
 
 ### 🔧 Prerequisites
